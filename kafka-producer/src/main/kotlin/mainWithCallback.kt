@@ -17,20 +17,22 @@ fun main(args: Array<String>) {
     properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
     properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
 
-    val randomString = (1..10)
-        .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
-        .map(charPool::get)
-        .joinToString("")
-
-    val record = ProducerRecord<String, String>("first_topic", randomString)
-
     val producer = KafkaProducer<String, String>(properties)
 
-    val send = producer.send(
-        record
-    )
+    for (i in 1..10) {
+        val randomString = (1..10)
+            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("")
 
-    println(" Record medatada topic ${send.get().topic()}, partition ${send.get().partition()}}")
+        val record = ProducerRecord<String, String>("first_topic", randomString)
+
+        val send = producer.send(
+            record
+        )
+
+        println(" Record medatada topic ${send.get().topic()}, partition ${send.get().partition()}, offset ${send.get().offset()}}")
+    }
 
     producer.flush()
     producer.close()
