@@ -1,3 +1,4 @@
+
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -6,7 +7,7 @@ import java.util.Properties
 
 fun main(args: Array<String>) {
 
-    val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
     val bootstratapServers = "127.0.0.1:9092"
     val properties = Properties()
@@ -25,7 +26,12 @@ fun main(args: Array<String>) {
 
     val producer = KafkaProducer<String, String>(properties)
 
-    producer.send(record)
+    val send = producer.send(
+        record
+    )
+
+    println(" Record medatada topic ${send.get().topic()}, partition ${send.get().partition()}}")
+
     producer.flush()
     producer.close()
 }
