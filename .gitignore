@@ -27,3 +27,7 @@ kafka-producer/.gradle
 kafka-producer/build
 kafka-producer/.idea
 
+
+kafka-consumer/.gradle
+kafka-consumer/build
+kafka-consumer/.idea

@@ -25,7 +25,8 @@ fun main(args: Array<String>) {
             .map(charPool::get)
             .joinToString("")
 
-        val record = ProducerRecord<String, String>("first_topic", randomString)
+        val key = "id_$i"
+        val record = ProducerRecord<String, String>("first_topic", key, randomString)
 
         val send = producer.send(
             record
