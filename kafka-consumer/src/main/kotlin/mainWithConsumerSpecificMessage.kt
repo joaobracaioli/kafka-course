@@ -1,5 +1,6 @@
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
 import java.util.Collections
@@ -22,13 +23,29 @@ fun main(args: Array<String>) {
 
     val consumer = KafkaConsumer<String, String>(properties)
 
-    consumer.subscribe(Collections.singleton(topic))
+    // create consumer fetch a specific message
 
-    while (true) {
+    val topicPartition = TopicPartition(topic, 0)
+    val offsetReadFrom = 10L
+
+    consumer.assign(arrayListOf(topicPartition))
+    consumer.seek(topicPartition, offsetReadFrom)
+
+    val numberOfMessageToRead = 5
+    var keepOnReading = true
+    var numberOfMessageReadSoFar = 0
+
+    while (keepOnReading) {
         val poll = consumer.poll(Duration.ofMillis(100))
 
         poll.forEach {
             println("key: ${it.key()}  value: ${it.value()}")
+            numberOfMessageReadSoFar += 1
+            if (numberOfMessageReadSoFar >= numberOfMessageToRead) {
+                keepOnReading = false
+                return
+            }
         }
     }
+
 }

@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
 
     val producer = KafkaProducer<String, String>(properties)
 
-    for (i in 1..10) {
+    for (i in 1..15) {
         val randomString = (1..10)
             .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
             .map(charPool::get)
