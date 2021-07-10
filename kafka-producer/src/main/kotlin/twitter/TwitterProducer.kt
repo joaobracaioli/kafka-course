@@ -23,8 +23,6 @@ import java.util.concurrent.TimeUnit
 
 private val logger: Logger by lazy { LoggerFactory.getLogger("Twitter") }
 
-
-
 fun main() {
 
     logger.info("Start application")
@@ -71,6 +69,18 @@ fun createKafkaProducer(): KafkaProducer<String, String> {
     properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
     properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
 
+    // safe producer
+    properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true")
+    // properties.setProperty(ProducerConfig.ACKS_CONFIG, "1")
+    properties.setProperty(ProducerConfig.RETRIES_CONFIG, Int.MAX_VALUE.toString())
+    properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5")
+
+    // high throughput producer
+
+    properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy")
+    properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20") // 20 ms
+    properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, (32 * 1024).toString()) // 32KB batch size
+
     return KafkaProducer<String, String>(properties)
 }
 
@@ -104,10 +114,12 @@ fun twitterClientFactory(msgQueue: LinkedBlockingQueue<String>, properties: Prop
 
     hostEndpoint.trackTerms(terms)
     properties.getProperty("consumerKey")
-    val auth = OAuth1(properties.getProperty("consumerKey"),
+    val auth = OAuth1(
+        properties.getProperty("consumerKey"),
         properties.getProperty("consumerSecret"),
         properties.getProperty("token"),
-        properties.getProperty("secret"))
+        properties.getProperty("secret")
+    )
 
     return ClientBuilder()
         .name("client-1")

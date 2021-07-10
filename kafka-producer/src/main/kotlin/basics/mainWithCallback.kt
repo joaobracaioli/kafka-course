@@ -17,6 +17,12 @@ fun main(args: Array<String>) {
     properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
     properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer::class.java.name)
 
+    // safe producer
+    properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true")
+    // properties.setProperty(ProducerConfig.ACKS_CONFIG, "1")
+    properties.setProperty(ProducerConfig.RETRIES_CONFIG, Int.MAX_VALUE.toString())
+    properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5")
+
     val producer = KafkaProducer<String, String>(properties)
 
     for (i in 1..15) {

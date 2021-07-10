@@ -3,7 +3,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
-import java.util.Collections
 import java.util.Properties
 
 fun main(args: Array<String>) {
@@ -14,7 +13,7 @@ fun main(args: Array<String>) {
 
     val properties = Properties()
 
-    println("Producer !")
+    println("Consumer !")
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstratapServers)
     properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
     properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)

@@ -8,17 +8,17 @@ import java.util.Properties
 fun main(args: Array<String>) {
 
     val bootstratapServers = "127.0.0.1:9092"
-    val groupId = "group-application"
+    val groupId = "group-application-12"
     val topic = "first_topic"
 
     val properties = Properties()
 
-    println("Producer !")
+    println("Consumer !")
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstratapServers)
     properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
     properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
     properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId)
-    properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+    properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest") // config to start
 
     val consumer = KafkaConsumer<String, String>(properties)
 

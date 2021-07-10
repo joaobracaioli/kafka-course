@@ -15,6 +15,11 @@ repositories {
 dependencies {
     implementation("org.apache.kafka:kafka-clients:2.8.0")
     implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.elasticsearch.client:elasticsearch-rest-client:6.2.3")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.13.2")
+
+    implementation("com.google.code.gson:gson:2.8.6")
+
 }
 
 repositories {

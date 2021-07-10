@@ -31,3 +31,5 @@ kafka-producer/.idea
 kafka-consumer/.gradle
 kafka-consumer/build
 kafka-consumer/.idea
+
+kafka-connectors/twitter.properties
