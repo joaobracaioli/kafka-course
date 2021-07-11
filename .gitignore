@@ -33,3 +33,7 @@ kafka-consumer/build
 kafka-consumer/.idea
 
 kafka-connectors/twitter.properties
+
+kafka-streams/.gradle
+kafka-streams/build
+kafka-streams/.idea
